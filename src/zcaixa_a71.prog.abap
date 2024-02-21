@@ -20,11 +20,15 @@ DATA:
   desconto        TYPE p DECIMALS 2,
   data_vencimento TYPE d.
 
+DATA:
+  infoadicional  TYPE string,
+  referencia(40) TYPE c.
+
 *Definição de campos na tela
 PARAMETERS: p_desc TYPE c LENGTH 30,
-            p_qtd  TYPE i OBLIGATORY,
-            p_data TYPE sy-datum,
-            p_grup TYPE matkl.
+            p_qtd(3) TYPE n OBLIGATORY,
+            p_data TYPE sy-datum.
+
 
 
 PARAMETERS:
@@ -37,6 +41,8 @@ PARAMETERS:
 *& LÓGICA
 *&---------------------------------------------------------------------*
 
+CONCATENATE p_desc p_data p_qtd into referencia SEPARATED BY ';'.
+
 descricao = p_desc.
 quantidade = p_qtd.
 
@@ -45,6 +51,8 @@ preco = '3.99'.
 imposto = preco * '0.10'.
 *soma e multiplicação (priorização)
 precofinal = ( preco + imposto ) * quantidade.
+desconto = precofinal * '0.03'.
+
 *subtração
 precofinal = precofinal - desconto.
 
@@ -55,6 +63,8 @@ data_vencimento = p_data + 30.
 *&---------------------------------------------------------------------*
 *& SAÍDA
 *&---------------------------------------------------------------------*
+
+WRITE: / 'Referência: ', referencia.
 
 *Imprimir Dados
 WRITE:
